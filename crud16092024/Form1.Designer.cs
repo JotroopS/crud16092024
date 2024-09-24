@@ -32,7 +32,7 @@
             this.cognometext = new System.Windows.Forms.TextBox();
             this.crea = new System.Windows.Forms.Button();
             this.modifica = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.cerca = new System.Windows.Forms.Button();
             this.elimina = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -75,14 +75,16 @@
             this.modifica.UseVisualStyleBackColor = true;
             this.modifica.Click += new System.EventHandler(this.modifica_Click);
             // 
-            // button3
+            // cerca
             // 
-            this.button3.Location = new System.Drawing.Point(213, 210);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(176, 87);
-            this.button3.TabIndex = 4;
-            this.button3.Text = "button3";
-            this.button3.UseVisualStyleBackColor = true;
+            this.cerca.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cerca.Location = new System.Drawing.Point(213, 210);
+            this.cerca.Name = "cerca";
+            this.cerca.Size = new System.Drawing.Size(176, 87);
+            this.cerca.TabIndex = 4;
+            this.cerca.Text = "Cerca";
+            this.cerca.UseVisualStyleBackColor = true;
+            this.cerca.Click += new System.EventHandler(this.cerca_Click);
             // 
             // elimina
             // 
@@ -134,7 +136,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.elimina);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.cerca);
             this.Controls.Add(this.modifica);
             this.Controls.Add(this.crea);
             this.Controls.Add(this.cognometext);
@@ -154,7 +156,7 @@
         private System.Windows.Forms.TextBox cognometext;
         private System.Windows.Forms.Button crea;
         private System.Windows.Forms.Button modifica;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button cerca;
         private System.Windows.Forms.Button elimina;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;

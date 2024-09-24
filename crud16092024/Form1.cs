@@ -14,13 +14,11 @@ namespace crud16092024
     public partial class Form1 : Form
     {
         Lista pers = new Lista();
-
         public Form1()
         {
             InitializeComponent();
             this.lista.SelectedIndexChanged += new System.EventHandler(this.lista_SelectedIndexChanged);
         }
-
         private void Form1_Load(object sender, EventArgs e)
         {
             if (File.Exists("Lista.txt"))
@@ -32,11 +30,19 @@ namespace crud16092024
                 while (riga != null)
                 {
                     string[] dati = riga.Split(' ');
-                    Persona persone = new Persona(dati[0], dati[1]);
-                    pers.Perso.Add(persone);
+                    if (dati.Length == 2)
+                    {
+                        Persona persone = new Persona(dati[0], dati[1]);
+                        pers.Perso.Add(persone);
+                        lista.Items.Add(pers.Perso[i].nome + " " + pers.Perso[i].cognome);
+                        i++;
+                    }
+                    else
+                    {
+                        MessageBox.Show("La riga del file non è nel formato corretto: " + riga, "Errore formato", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+
                     riga = sr.ReadLine();
-                    lista.Items.Add(pers.Perso[i].nome + " " + pers.Perso[i].cognome);
-                    i++;
                 }
                 sr.Close();
                 file.Close();
@@ -87,17 +93,22 @@ namespace crud16092024
         }
         private void lista_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (lista.SelectedIndex >= 0)
-            {
-                int indice = lista.SelectedIndex;
-                nometext.Text = pers.Perso[indice].nome;
-                cognometext.Text = pers.Perso[indice].cognome;
-            }
+
         }
         private void modifica_Click(object sender, EventArgs e)
         {
             if (lista.SelectedIndex >= 0)
             {
+                if (string.IsNullOrWhiteSpace(nometext.Text))
+                {
+                    MessageBox.Show("Inserisci il nome.", "Errore", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (string.IsNullOrWhiteSpace(cognometext.Text))
+                {
+                    MessageBox.Show("Inserisci il cognome.", "Errore", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
                 int indice = lista.SelectedIndex;
                 pers.Perso[indice].nome = nometext.Text;
                 pers.Perso[indice].cognome = cognometext.Text;
@@ -141,6 +152,36 @@ namespace crud16092024
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             AggiornaFile();
+        }
+        private void cerca_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(nometext.Text))
+            {
+                MessageBox.Show("Inserisci il nome.", "Errore", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(cognometext.Text))
+            {
+                MessageBox.Show("Inserisci il cognome.", "Errore", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            string nomericerca = nometext.Text;
+            string cognomericerca = cognometext.Text;
+            bool trovato = false;
+            for (int i = 0; i < pers.Perso.Count; i++)
+            {
+                if (pers.Perso[i].nome.ToLower() == nomericerca.ToLower() &&
+                    pers.Perso[i].cognome.ToLower() == cognomericerca.ToLower())
+                {
+                    MessageBox.Show($"{nomericerca} {cognomericerca} è presente nella lista nella posizione {i + 1}.", "Risultato ricerca", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    trovato = true;
+                    break;
+                }
+            }
+            if (!trovato)
+            {
+                MessageBox.Show($"{nomericerca} {cognomericerca} non è presente nella lista.", "Risultato ricerca", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }
